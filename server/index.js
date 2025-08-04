@@ -13,7 +13,7 @@ console.log(`Using Gemini API Key: ${GEMINI_API_KEY ? '******' : 'Not Set'}`); /
 
 // --- Middleware ---
 app.use(cors({
-    origin: 'http://localhost:3000', // Allow requests from your React frontend
+    origin: 'https://chat-bot-nine-pi.vercel.app/', // Allow requests from your React frontend
     credentials: true
 }));
 app.use(express.json()); // Enable parsing of JSON request bodies
