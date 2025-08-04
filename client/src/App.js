@@ -32,7 +32,7 @@ function App() {
 
         try {
             // Send the entire chat history for context to the backend
-            const response = await axios.post('https://chatbot-8t3s.onrender.com', {
+            const response = await axios.post('https://chatbot-8t3s.onrender.com/api/chat', {
                 message: prompt,
                 chatHistory: [...chatHistory, userMessage] // Include the latest user message
             });
