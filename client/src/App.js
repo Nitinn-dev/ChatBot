@@ -32,6 +32,8 @@ function App() {
 
         try {
             // Send the entire chat history for context to the backend
+            //https://chatbot-8t3s.onrender.com/api/gemini-chat
+            //http://localhost:5000/api/gemini-chat
             const response = await axios.post('https://chatbot-8t3s.onrender.com/api/gemini-chat', {
                 message: prompt,
                 chatHistory: [...chatHistory, userMessage] // Include the latest user message

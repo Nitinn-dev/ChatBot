@@ -1,22 +1,47 @@
 // server/index.js (MODIFIED - No Database)
 require('dotenv').config(); // Load environment variables from .env
 
+const mongoose = require('mongoose');
+
+mongoose.connect(process.env.MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log('Connected to MongoDB Atlas!');
+}).catch(err => {
+  console.error('Failed to connect to MongoDB', err);
+});
+
 const express = require('express');
+
+const OwnerInfo = require('./ownerInfo');
+const router = express.Router();
+
+
+
+ 
+
 const cors = require('cors');
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
 
 const app = express();
+// Mount the router at /api
+
 const PORT = process.env.PORT || 5000; // Default to 5000 if PORT is not set
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 console.log(`Using Gemini API Key: ${GEMINI_API_KEY ? '******' : 'Not Set'}`); // Log API key status (masked for security)
 
 // --- Middleware ---
+
 app.use(cors({
     origin: 'https://chat-bot-nine-pi.vercel.app', // Allow requests from your React frontend
+    //https://chat-bot-nine-pi.vercel.app
+    //http://localhost:3000
     credentials: true
 }));
 app.use(express.json()); // Enable parsing of JSON request bodies
+app.use('/api', router);
 
 // --- Gemini API Initialization ---
 if (!GEMINI_API_KEY) {
@@ -28,9 +53,58 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" }); // Or 'ge
 
 // --- API Routes ---
 
+router.post('/save-owner-info', async (req, res) => {
+  try {
+    // Check if info already exists to prevent duplicates
+    let ownerInfo = await OwnerInfo.findOne();
+
+    if (ownerInfo) {
+      // Update existing info
+      ownerInfo.name = req.body.name;
+      ownerInfo.dob = req.body.dob;
+      ownerInfo.name1 = req.body.name1; // Update name1
+      await ownerInfo.save();
+    } else {
+      // Create new info
+      ownerInfo = new OwnerInfo(req.body);
+      await ownerInfo.save();
+    }
+    res.status(200).send('Owner info saved successfully!');
+  } catch (error) {
+    console.error('Error in /api/save-owner-info:', error);
+    res.status(500).send('Failed to save owner info.');
+  }
+});
+
 // Route to handle chat messages
 app.post('/api/gemini-chat', async (req, res) => {
-    const { message, chatHistory } = req.body; // `chatHistory` will be an array of { role, text }
+    const { message, chatHistory } = req.body;
+    
+
+  // Check for keywords
+  if (message.includes('creaters name') || message.includes('what is your creaters name')) {
+    const ownerInfo = await OwnerInfo.findOne();
+    if (ownerInfo) {
+      return res.json({ response: `My owner's name is ${ownerInfo.name}.` });
+    }
+  }
+
+  if (message.includes('creaters dob') || message.includes('creaters date of birth')) {
+    const ownerInfo = await OwnerInfo.findOne();
+    if (ownerInfo) {
+      return res.json({ response: `My owner's date of birth is ${ownerInfo.dob}.` });
+    }
+  }
+
+  if (message.includes('your name') || message.includes('what is your name')) {
+    const ownerInfo = await OwnerInfo.findOne();
+    if (ownerInfo) {
+      return res.json({ response: `My Name is ${ownerInfo.name1}.` });
+    }
+  }
+
+
+// `chatHistory` will be an array of { role, text }
 
     if (!message) {
         return res.status(400).json({ error: 'Message is required' });
