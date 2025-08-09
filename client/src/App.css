@@ -6,6 +6,7 @@
 .App.dark .chat-message.user {
     background-color: #1565c0;
     color: #e3f2fd;
+    border: 1px solid #0d47a1;
 }
 
 .App.dark .chat-message.model {
@@ -42,7 +43,7 @@
 .App.dark .chat-message.model blockquote,
 .App.dark .chat-message.model img,
 .App.dark .chat-message.model hr {
-    background: #4f996b;
+    background: #355c44;
     color: #b2ffb2;
 }
 
