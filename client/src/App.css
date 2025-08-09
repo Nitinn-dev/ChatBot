@@ -1,3 +1,85 @@
+/* --- Dark Mode Styles --- */
+.App.dark {
+    background-color: #181818;
+    color: #eee;
+}
+
+.App.dark .chat-container {
+    background-color: #23272f;
+    border-color: #222;
+}
+
+.App.dark .chat-message.user {
+    background-color: #26334d;
+    color: #e3f2fd;
+}
+
+.App.dark .chat-message.model {
+    background-color: #1e2b22;
+    color: #e8f5e9;
+}
+
+.App.dark .chat-message.model pre,
+.App.dark .chat-message.model code {
+    background: #23272f;
+    color: #b2ffb2;
+}
+
+.App.dark .chat-message.model blockquote {
+    background: #23272f;
+    border-left: 4px solid #4f8cff;
+    color: #b3c6ff;
+}
+
+.App.dark .chat-message.model th,
+.App.dark .chat-message.model td {
+    border-color: #333;
+}
+
+.App.dark .chat-message.model th {
+    background: #23272f;
+    color: #b3c6ff;
+}
+
+.App.dark .chat-message.loading {
+    background-color: #23272f;
+    color: #bbb;
+}
+
+.App.dark .error-message {
+    background-color: #3a1a1a;
+    color: #ffb3b3;
+    border-color: #b71c1c;
+}
+
+.App.dark .input-area {
+    border-top: 1px solid #333;
+}
+
+.App.dark .input-area textarea {
+    background: #23272f;
+    color: #eee;
+    border-color: #444;
+}
+
+.App.dark .input-area textarea:focus {
+    border-color: #4f8cff;
+    box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.15);
+}
+
+.App.dark .input-area button {
+    background-color: #4f8cff;
+    color: #fff;
+}
+
+.App.dark .input-area button:hover {
+    background-color: #1976d2;
+}
+
+.App.dark .input-area button:disabled {
+    background-color: #333;
+    color: #888;
+}
 
 .App {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
