@@ -9,6 +9,7 @@ function App() {
     const [chatHistory, setChatHistory] = useState([]); // Stores { role: 'user' | 'model', text: '...' }
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [darkMode, setDarkMode] = useState(false);
 
     const chatContainerRef = useRef(null); // Ref for scrolling to bottom
 
@@ -67,7 +68,13 @@ function App() {
     };
 
     return (
-        <div className="App">
+        <div className={`App${darkMode ? ' dark' : ''}`}>
+            <button
+                style={{ position: 'absolute', top: 20, right: 30, zIndex: 10 }}
+                onClick={() => setDarkMode((d) => !d)}
+            >
+                {darkMode ? '🌙 Dark Mode' : '☀️ Light Mode'}
+            </button>
             <h1>Random Chatbot</h1>
 
             <div className="chat-container" ref={chatContainerRef}>
