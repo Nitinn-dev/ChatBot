@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
 import './App.css'; // For basic styling
 
 function App() {
@@ -53,9 +54,15 @@ function App() {
     };
 
     const handleKeyPress = (e) => {
-        if (e.key === 'Enter' && !e.shiftKey) { // Send on Enter, not Shift+Enter
-            e.preventDefault(); // Prevent new line
-            handleSendMessage();
+        if (e.key === 'Enter') {
+            if (e.shiftKey) {
+                // Allow new line (default behavior)
+                return;
+            } else {
+                // Submit on Enter
+                e.preventDefault();
+                handleSendMessage();
+            }
         }
     };
 
@@ -69,7 +76,12 @@ function App() {
                 )}
                 {chatHistory.map((msg, index) => (
                     <div key={index} className={`chat-message ${msg.role}`}>
-                        <strong>{msg.role === 'user' ? 'You' : 'Random AI'}:</strong> {msg.text}
+                        <strong>{msg.role === 'user' ? 'You' : 'Random AI'}:</strong>{' '}
+                        {msg.role === 'model' ? (
+                            <ReactMarkdown>{msg.text}</ReactMarkdown>
+                        ) : (
+                            msg.text
+                        )}
                     </div>
                 ))}
                 {isLoading && <div className="chat-message loading">Random AI is thinking...</div>}
@@ -80,7 +92,7 @@ function App() {
                 <textarea
                     value={prompt}
                     onChange={(e) => setPrompt(e.target.value)}
-                    onClick={handleKeyPress}
+                    onKeyDown={handleKeyPress}
                     placeholder="Type your chat here..."
                     rows="3" // Allow multiple lines for input
                     disabled={isLoading}

@@ -65,6 +65,104 @@ h1 {
     background-color: #e8f5e9; /* Light green */
     align-self: flex-start; /* Align to left */
     border-bottom-left-radius: 5px; /* Slightly adjust corner for model message */
+/* Perfect formatting for various content types inside model messages */
+}
+/* Bullet and numbered lists */
+.chat-message.model ul,
+.chat-message.model ol {
+    margin: 10px 0 10px 24px;
+    padding: 0;
+}
+
+.chat-message.model li {
+    margin-bottom: 6px;
+    line-height: 1.6;
+    font-size: 1em;
+}
+
+/* Code blocks */
+.chat-message.model pre,
+.chat-message.model code {
+    font-family: 'Fira Mono', 'Consolas', 'Menlo', monospace;
+    background: #f5f5f5;
+    color: #263238;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.97em;
+    overflow-x: auto;
+    display: block;
+    margin: 10px 0;
+}
+
+.chat-message.model code {
+    display: inline;
+    padding: 2px 6px;
+    margin: 0 2px;
+}
+
+/* Blockquotes */
+.chat-message.model blockquote {
+    border-left: 4px solid #b3c6ff;
+    background: #f4f8ff;
+    margin: 10px 0;
+    padding: 8px 16px;
+    color: #444;
+    font-style: italic;
+    border-radius: 4px;
+}
+
+/* Headings */
+.chat-message.model h1,
+.chat-message.model h2,
+.chat-message.model h3,
+.chat-message.model h4,
+.chat-message.model h5,
+.chat-message.model h6 {
+    margin: 14px 0 8px 0;
+    font-weight: 600;
+    color: #1976d2;
+    line-height: 1.2;
+}
+
+/* Paragraphs */
+.chat-message.model p {
+    margin: 8px 0;
+    line-height: 1.7;
+}
+
+/* Horizontal rule */
+.chat-message.model hr {
+    border: none;
+    border-top: 1px solid #e0e0e0;
+    margin: 16px 0;
+}
+
+/* Images */
+.chat-message.model img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin: 8px 0;
+    display: block;
+}
+
+/* Tables */
+.chat-message.model table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 12px 0;
+    font-size: 0.98em;
+}
+
+.chat-message.model th,
+.chat-message.model td {
+    border: 1px solid #e0e0e0;
+    padding: 6px 12px;
+    text-align: left;
+}
+
+.chat-message.model th {
+    background: #f0f7ff;
+    font-weight: 600;
 }
 
 .chat-message.loading {
@@ -134,4 +232,3 @@ h1 {
     box-shadow: none;
     transform: none;
 }
-
