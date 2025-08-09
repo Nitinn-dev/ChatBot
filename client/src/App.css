@@ -1,3 +1,17 @@
+.App.dark h1 {
+    color: #90caf9;
+    text-shadow: 0 2px 8px #000a;
+}
+
+.App.dark .chat-message.user {
+    background-color: #1565c0;
+    color: #e3f2fd;
+}
+
+.App.dark .chat-message.model {
+    background-color: #1b5e20;
+    color: #e8f5e9;
+}
 /* --- Dark Mode Styles --- */
 .App.dark {
     background-color: #181818;
