@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
+import AuthPage from './AuthPage';
 import './App.css'; // For basic styling
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
     const [darkMode, setDarkMode] = useState(false);
+    const [user, setUser] = useState(() => localStorage.getItem('token') ? localStorage.getItem('username') : null);
 
     const chatContainerRef = useRef(null); // Ref for scrolling to bottom
 
@@ -20,7 +22,15 @@ function App() {
         }
     }, [chatHistory]);
 
-    // Removed: useEffect for fetching initial chat history as there's no DB
+    // Set axios default auth header if token exists
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        } else {
+            delete axios.defaults.headers.common['Authorization'];
+        }
+    }, [user]);
 
     const handleSendMessage = async () => {
         if (!prompt.trim() || isLoading) return; // Prevent sending empty messages or multiple requests
@@ -67,6 +77,21 @@ function App() {
         }
     };
 
+    const handleAuth = (username) => {
+        setUser(username);
+        localStorage.setItem('username', username);
+    };
+
+    const handleLogout = () => {
+        setUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+    };
+
+    if (!user) {
+        return <AuthPage onAuth={handleAuth} />;
+    }
+
     return (
         <div className={`App${darkMode ? ' dark' : ''}`}>
             <button
@@ -74,6 +99,12 @@ function App() {
                 onClick={() => setDarkMode((d) => !d)}
             >
                 {darkMode ? '🌙 Dark Mode' : '☀️ Light Mode'}
+            </button>
+            <button
+                style={{ position: 'absolute', top: 20, left: 30, zIndex: 10 }}
+                onClick={handleLogout}
+            >
+                Logout
             </button>
             <h1>Random Chatbot</h1>
 

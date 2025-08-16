@@ -1,3 +1,45 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const User = require('./user');
+const express = require('express');
+const app = express();
+const router = express.Router();
+const cors = require('cors');
+app.use(express.json());
+app.use('/api', router);
+
+
+// --- Auth Routes ---
+router.post('/register', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: 'Username and password required.' });
+    const existing = await User.findOne({ username });
+    if (existing) return res.status(400).json({ error: 'Username already exists.' });
+    const hashed = await bcrypt.hash(password, 10);
+    const user = new User({ username, password: hashed });
+    await user.save();
+    res.status(201).json({ message: 'User registered successfully.' });
+  } catch (err) {
+    res.status(500).json({ error: 'Registration failed.' });
+    console.error('Error in /api/register:', err);
+  }
+});
+
+router.post('/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) return res.status(400).json({ error: 'Username and password required.' });
+    const user = await User.findOne({ username });
+    if (!user) return res.status(400).json({ error: 'Invalid credentials.' });
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(400).json({ error: 'Invalid credentials.' });
+    const token = jwt.sign({ id: user._id, username: user.username }, process.env.JWT_SECRET || 'secret', { expiresIn: '1d' });
+    res.json({ token, username: user.username });
+  } catch (err) {
+    res.status(500).json({ error: 'Login failed.' });
+  }
+});
 // server/index.js (MODIFIED - No Database)
 require('dotenv').config(); // Load environment variables from .env
 
@@ -12,19 +54,19 @@ mongoose.connect(process.env.MONGO_URI, {
   console.error('Failed to connect to MongoDB', err);
 });
 
-const express = require('express');
+
 
 const OwnerInfo = require('./ownerInfo');
-const router = express.Router();
+
 
 
 
  
 
-const cors = require('cors');
+
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
 
-const app = express();
+
 // Mount the router at /api
 
 const PORT = process.env.PORT || 5000; // Default to 5000 if PORT is not set
@@ -40,8 +82,8 @@ app.use(cors({
     //http://localhost:3000
     credentials: true
 }));
-app.use(express.json()); // Enable parsing of JSON request bodies
-app.use('/api', router);
+ // Enable parsing of JSON request bodies
+
 
 // --- Gemini API Initialization ---
 if (!GEMINI_API_KEY) {
