@@ -10,8 +10,11 @@ app.use(cors({
     origin: 'https://chat-bot-nine-pi.vercel.app', // Allow requests from your React frontend
     //https://chat-bot-nine-pi.vercel.app
     //http://localhost:3000
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     credentials: true
 }));
+
+app.options("*", cors());
 app.use(express.json()); 
  // Enable parsing of JSON request bodies
 app.use('/api', router);
@@ -62,15 +65,7 @@ mongoose.connect(process.env.MONGO_URI, {
   console.error('Failed to connect to MongoDB', err);
 });
 
-
-
 const OwnerInfo = require('./ownerInfo');
-
-
-
-
- 
-
 
 const { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } = require('@google/generative-ai');
 
@@ -81,11 +76,6 @@ const PORT = process.env.PORT || 5000; // Default to 5000 if PORT is not set
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 console.log(`Using Gemini API Key: ${GEMINI_API_KEY ? '******' : 'Not Set'}`); // Log API key status (masked for security)
-
-
-
-
-
 
 // --- Gemini API Initialization ---
 if (!GEMINI_API_KEY) {
