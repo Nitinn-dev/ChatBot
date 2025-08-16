@@ -14,10 +14,10 @@ app.use(cors({
     //https://chat-bot-nine-pi.vercel.app
     //http://localhost:3000
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true
+    credentials: true,
+    OptionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
 }));
 
-app.use(cors(corsOptions));
 app.use(express.json()); 
  // Enable parsing of JSON request bodies
 app.use('/api', router);
