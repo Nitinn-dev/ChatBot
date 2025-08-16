@@ -5,14 +5,16 @@ const express = require('express');
 const app = express();
 const router = express.Router();
 const cors = require('cors');
-app.use(express.json());
-app.use('/api', router);
+// --- Middleware ---
 app.use(cors({
     origin: 'https://chat-bot-nine-pi.vercel.app', // Allow requests from your React frontend
     //https://chat-bot-nine-pi.vercel.app
     //http://localhost:3000
     credentials: true
 }));
+app.use(express.json()); 
+ // Enable parsing of JSON request bodies
+app.use('/api', router);
 
 
 // --- Auth Routes ---
@@ -80,10 +82,9 @@ const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 console.log(`Using Gemini API Key: ${GEMINI_API_KEY ? '******' : 'Not Set'}`); // Log API key status (masked for security)
 
-// --- Middleware ---
 
 
- // Enable parsing of JSON request bodies
+
 
 
 // --- Gemini API Initialization ---
