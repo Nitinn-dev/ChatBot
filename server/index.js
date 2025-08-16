@@ -7,6 +7,12 @@ const router = express.Router();
 const cors = require('cors');
 app.use(express.json());
 app.use('/api', router);
+app.use(cors({
+    origin: 'https://chat-bot-nine-pi.vercel.app', // Allow requests from your React frontend
+    //https://chat-bot-nine-pi.vercel.app
+    //http://localhost:3000
+    credentials: true
+}));
 
 
 // --- Auth Routes ---
@@ -76,12 +82,7 @@ console.log(`Using Gemini API Key: ${GEMINI_API_KEY ? '******' : 'Not Set'}`); /
 
 // --- Middleware ---
 
-app.use(cors({
-    origin: 'https://chat-bot-nine-pi.vercel.app', // Allow requests from your React frontend
-    //https://chat-bot-nine-pi.vercel.app
-    //http://localhost:3000
-    credentials: true
-}));
+
  // Enable parsing of JSON request bodies
 
 
