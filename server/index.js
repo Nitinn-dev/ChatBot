@@ -17,7 +17,7 @@ app.use(cors({
     credentials: true
 }));
 
-
+app.use(cors(corsOptions));
 app.use(express.json()); 
  // Enable parsing of JSON request bodies
 app.use('/api', router);
