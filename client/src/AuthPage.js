@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AuthPage.css';
 
+const API_URL = process.env.Back_End_Url;
+
 function AuthPage({ onAuth }) {
   const [isLogin, setIsLogin] = useState(true);
   const [username, setUsername] = useState('');
@@ -13,7 +15,9 @@ function AuthPage({ onAuth }) {
     setError(null);
     try {
       const url = isLogin ? '/api/login' : '/api/register';
-      const res = await axios.post(url, { username, password });
+      const fullUrl = `${API_URL}${url}`;
+
+      const res = await axios.post(fullUrl, { username, password });
       if (isLogin) {
         localStorage.setItem('token', res.data.token);
         onAuth(res.data.username);
