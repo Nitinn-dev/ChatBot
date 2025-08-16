@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AuthPage.css';
 
-const API_URL = process.env.Back_End_Url;
+require('dotenv').config();
+const API_URL = process.env.BACK_END_URL;
 
 function AuthPage({ onAuth }) {
   const [isLogin, setIsLogin] = useState(true);
