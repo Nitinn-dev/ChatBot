@@ -98,7 +98,7 @@ function App() {
                 style={{ position: 'absolute', top: 20, right: 30, zIndex: 10 }}
                 onClick={() => setDarkMode((d) => !d)}
             >
-                {darkMode ? '🌙 Dark Mode' : '☀️ Light Mode'}
+                {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
             </button>
             <button
                 style={{ position: 'absolute', top: 20, left: 30, zIndex: 10 }}
